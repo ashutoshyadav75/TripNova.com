@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Users | TripNova</title>
+
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <a th:href="@{/admin/dashboard}" class="brand">
+            <span class="brand-icon">✦</span>
+            <span>Trip<span class="brand-highlight">Nova</span></span>
+        </a>
+
+        <div class="sidebar-label">MAIN MENU</div>
+
+        <nav class="sidebar-nav">
+
+            <a th:href="@{/admin/dashboard}" class="nav-link">
+                <span class="nav-icon">▦</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a th:href="@{/admin/users}" class="nav-link active">
+                <span class="nav-icon">♙</span>
+                <span>Manage Users</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-profile">
+                <div class="admin-avatar">A</div>
+
+                <div class="admin-info">
+                    <strong>Administrator</strong>
+                    <span>Control Panel</span>
+                </div>
+            </div>
+
+            <form th:action="@{/logout}" method="post">
+                <button class="logout-button" type="submit">
+                    <span>↪</span>
+                    Logout
+                </button>
+            </form>
+
+        </div>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+                <div class="breadcrumb">
+                    Admin / Manage Users
+                </div>
+
+                <h1>Manage Users</h1>
+
+                <p class="page-description">
+                    Search accounts, review user trips and manage roles.
+                </p>
+            </div>
+
+            <a th:href="@{/admin/dashboard}" class="visit-site-btn">
+                <span>←</span>
+                Back to Dashboard
+            </a>
+
+        </header>
+
+        <!-- Success Message -->
+        <div class="alert alert-success"
+             th:if="${successMessage}"
+             role="status">
+
+            <span class="alert-icon">✓</span>
+
+            <p th:text="${successMessage}">
+                Operation completed successfully.
+            </p>
+
+        </div>
+
+        <!-- Error Message -->
+        <div class="alert alert-error"
+             th:if="${errorMessage}"
+             role="alert">
+
+            <span class="alert-icon">!</span>
+
+            <p th:text="${errorMessage}">
+                Something went wrong.
+            </p>
+
+        </div>
+
+        <!-- Page Introduction -->
+        <section class="users-welcome">
+
+            <div>
+                <span class="users-eyebrow">USER MANAGEMENT</span>
+
+                <h2>Platform Users</h2>
+
+                <p>
+                    Find registered accounts and manage their access roles.
+                </p>
+            </div>
+
+            <div class="users-decoration" aria-hidden="true">
+                ♙
+            </div>
+
+        </section>
+
+        <!-- Search and Filter -->
+        <section class="users-panel">
+
+            <div class="panel-heading">
+                <div>
+                    <h2>Search & Filter</h2>
+
+                    <p>
+                        Find users by name, email or assigned role.
+                    </p>
+                </div>
+            </div>
+
+            <form class="users-search-form"
+                  th:action="@{/admin/users}"
+                  method="get">
+
+                <div class="search-field">
+
+                    <label for="keyword">Name or Email</label>
+
+                    <input type="search"
+                           id="keyword"
+                           name="keyword"
+                           placeholder="Search name or email..."
+                           th:value="${keyword}">
+
+                </div>
+
+                <div class="search-field">
+
+                    <label for="roleFilter">User Role</label>
+
+                    <select id="roleFilter" name="role">
+
+                        <option value="">All Roles</option>
+
+                        <option value="USER"
+                                th:selected="${selectedRole == 'USER'}">
+                            USER
+                        </option>
+
+                        <option value="ADMIN"
+                                th:selected="${selectedRole == 'ADMIN'}">
+                            ADMIN
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="search-actions">
+
+                    <button class="search-button" type="submit">
+                        <span>⌕</span>
+                        Search
+                    </button>
+
+                    <a th:href="@{/admin/users}" class="reset-button">
+                        Reset
+                    </a>
+
+                </div>
+
+            </form>
+
+        </section>
+
+        <!-- Users Table -->
+        <section class="users-panel table-panel">
+
+            <div class="panel-heading table-heading">
+
+                <div>
+                    <h2>Registered Accounts</h2>
+
+                    <p>
+                        Review account details and manage assigned roles.
+                    </p>
+                </div>
+
+                <span class="table-label">USER DIRECTORY</span>
+
+            </div>
+
+            <div class="table-wrapper">
+
+                <table class="users-table">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User</th>
+                            <th>Email Address</th>
+                            <th>Role</th>
+                            <th>Trips</th>
+                            <th>Update Role</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr th:each="user : ${users}">
+
+                            <td class="user-id"
+                                th:text="${user.id}">
+                                1
+                            </td>
+
+                            <td>
+                                <div class="user-cell">
+
+                                    <div class="user-avatar"
+                                         th:text="${#strings.isEmpty(user.fullName) ? 'U' : #strings.substring(user.fullName, 0, 1).toUpperCase()}">
+                                        U
+                                    </div>
+
+                                    <div class="user-details">
+
+                                        <span class="user-name"
+                                              th:text="${user.fullName}">
+                                            User Name
+                                        </span>
+
+                                        <span class="user-caption">
+                                            TripNova Account
+                                        </span>
+
+                                    </div>
+
+                                </div>
+                            </td>
+
+                            <td class="user-email"
+                                th:text="${user.email}">
+                                user@example.com
+                            </td>
+
+                            <td>
+
+                                <span class="role-badge"
+                                      th:classappend="${user.role == 'ADMIN'} ? ' role-admin' : ' role-user'"
+                                      th:text="${user.role}">
+                                    USER
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <a class="view-trips-button"
+                                   th:href="@{/admin/users/{id}/trips(id=${user.id})}">
+                                    View Trips
+                                    <span>→</span>
+                                </a>
+
+                            </td>
+
+                            <td>
+
+                                <form class="role-update-form"
+                                      th:action="@{/admin/users/{id}/role(id=${user.id})}"
+                                      method="post">
+
+                                    <select name="role"
+                                            aria-label="Select user role"
+                                            required>
+
+                                        <option value="USER"
+                                                th:selected="${user.role == 'USER'}">
+                                            USER
+                                        </option>
+
+                                        <option value="ADMIN"
+                                                th:selected="${user.role == 'ADMIN'}">
+                                            ADMIN
+                                        </option>
+
+                                    </select>
+
+                                    <button class="update-role-button"
+                                            type="submit">
+                                        Update
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(users)}">
+
+                            <td colspan="6" class="empty-state">
+
+                                <div class="empty-icon">⌕</div>
+
+                                <h3>No users found</h3>
+
+                                <p>
+                                    Try another search term or change the role filter.
+                                </p>
+
+                                <a th:href="@{/admin/users}" class="empty-reset">
+                                    Clear Filters
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="table-footer">
+
+                <span>
+                    User directory
+                </span>
+
+                <a th:href="@{/admin/dashboard}">
+                    ← Return to Dashboard
+                </a>
+
+            </div>
+
+        </section>
+
+        <footer class="admin-footer">
+            <span>© <span id="currentYear"></span> TripNova</span>
+            <span>Admin Control Panel</span>
+        </footer>
+
+    </main>
+
+</div>
+
+<script>
+    document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
+</script>
+
+</body>
+</html>

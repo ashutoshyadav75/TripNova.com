@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Trips | TripNova Admin</title>
+
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <a th:href="@{/admin/dashboard}" class="brand">
+            <span class="brand-icon">✦</span>
+            <span>Trip<span class="brand-highlight">Nova</span></span>
+        </a>
+
+        <div class="sidebar-label">MAIN MENU</div>
+
+        <nav class="sidebar-nav">
+
+            <a th:href="@{/admin/dashboard}" class="nav-link">
+                <span class="nav-icon">▦</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a th:href="@{/admin/users}" class="nav-link active">
+                <span class="nav-icon">♙</span>
+                <span>Manage Users</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-profile">
+                <div class="admin-avatar">A</div>
+
+                <div class="admin-info">
+                    <strong>Administrator</strong>
+                    <span>Control Panel</span>
+                </div>
+            </div>
+
+            <form th:action="@{/logout}" method="post">
+                <button class="logout-button" type="submit">
+                    <span>↪</span>
+                    Logout
+                </button>
+            </form>
+
+        </div>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+                <div class="breadcrumb">
+                    Admin / Manage Users / User Trips
+                </div>
+
+                <h1>User Trips</h1>
+
+                <p class="page-description">
+                    View the selected user's travel plans and trip details.
+                </p>
+            </div>
+
+            <a th:href="@{/admin/users}" class="visit-site-btn">
+                <span>←</span>
+                Back to Users
+            </a>
+
+        </header>
+
+        <!-- Success Message -->
+        <div class="alert alert-success"
+             th:if="${successMessage}"
+             role="status">
+
+            <span class="alert-icon">✓</span>
+
+            <p th:text="${successMessage}">
+                Operation completed successfully.
+            </p>
+
+        </div>
+
+        <!-- Selected User Profile -->
+        <section class="selected-user-card">
+
+            <div class="selected-user-main">
+
+                <div class="selected-user-avatar"
+                     th:text="${#strings.isEmpty(selectedUser.fullName) ? 'U' : #strings.substring(selectedUser.fullName, 0, 1).toUpperCase()}">
+                    U
+                </div>
+
+                <div class="selected-user-info">
+
+                    <span class="selected-user-label">USER PROFILE</span>
+
+                    <h2 th:text="${selectedUser.fullName}">
+                        User Name
+                    </h2>
+
+                    <p th:text="${selectedUser.email}">
+                        user@example.com
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="selected-user-role">
+
+                <span class="profile-field-label">ACCOUNT ROLE</span>
+
+                <span class="role-badge"
+                      th:classappend="${selectedUser.role == 'ADMIN'} ? ' role-admin' : ' role-user'"
+                      th:text="${selectedUser.role}">
+                    USER
+                </span>
+
+            </div>
+
+        </section>
+
+        <!-- Trips Section -->
+        <section class="users-panel user-trips-panel">
+
+            <div class="panel-heading">
+
+                <div>
+                    <h2>Trips Created</h2>
+
+                    <p>
+                        Review the destinations and travel preferences saved by this user.
+                    </p>
+                </div>
+
+                <span class="table-label">TRIP DIRECTORY</span>
+
+            </div>
+
+            <!-- Empty State -->
+            <div class="trip-empty-state"
+                 th:if="${#lists.isEmpty(userTrips)}">
+
+                <div class="trip-empty-icon">✈</div>
+
+                <h3>No trips created yet</h3>
+
+                <p>
+                    This user has not created any trips on TripNova.
+                </p>
+
+                <a th:href="@{/admin/users}" class="empty-reset">
+                    Back to Users
+                </a>
+
+            </div>
+
+            <!-- Trips Table -->
+            <div class="table-wrapper"
+                 th:if="${!#lists.isEmpty(userTrips)}">
+
+                <table class="users-table trips-table">
+
+                    <thead>
+                        <tr>
+                            <th>TRIP ID</th>
+                            <th>DESTINATION</th>
+                            <th>START DATE</th>
+                            <th>END DATE</th>
+                            <th>BUDGET</th>
+                            <th>TRAVELERS</th>
+                            <th>INTERESTS</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr th:each="trip : ${userTrips}">
+
+                            <td class="user-id"
+                                th:text="${trip.id}">
+                                1
+                            </td>
+
+                            <td>
+                                <div class="destination-cell">
+
+                                    <div class="destination-icon">✈</div>
+
+                                    <span class="destination-name"
+                                          th:text="${trip.destination}">
+                                        Manali
+                                    </span>
+
+                                </div>
+                            </td>
+
+                            <td class="trip-date"
+                                th:text="${trip.startDate}">
+                                2026-11-01
+                            </td>
+
+                            <td class="trip-date"
+                                th:text="${trip.endDate}">
+                                2026-11-05
+                            </td>
+
+                            <td>
+                                <span class="trip-budget">
+                                    ₹<span th:text="${trip.budget}">10000</span>
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="traveler-count">
+                                    <span>♙</span>
+                                    <span th:text="${trip.travelers}">2</span>
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="trip-interests"
+                                      th:text="${trip.interests != null and !#strings.isEmpty(trip.interests) ? trip.interests : 'Not specified'}">
+                                    Nature, Adventure
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <form class="delete-trip-form"
+                                      th:action="@{/admin/trips/{id}/delete(id=${trip.id})}"
+                                      method="post"
+                                      onsubmit="return confirm('Are you sure you want to delete this trip? This action cannot be undone.');">
+
+                                    <button class="delete-trip-button"
+                                            type="submit">
+                                        <span>×</span>
+                                        Delete
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="trips-footer"
+                 th:if="${!#lists.isEmpty(userTrips)}">
+
+                <span>
+                    Showing the selected user's trips
+                </span>
+
+                <a th:href="@{/admin/users}">
+                    ← Back to Users
+                </a>
+
+            </div>
+
+        </section>
+
+        <footer class="admin-footer">
+            <span>© <span id="currentYear"></span> TripNova</span>
+            <span>Admin Control Panel</span>
+        </footer>
+
+    </main>
+
+</div>
+
+<script>
+    document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<nav class="navbar" th:fragment="navigation">
+
+    <a class="logo" th:href="@{/}">
+        TripNova<span>.</span>
+    </a>
+
+    <div class="nav-links">
+        <a th:href="@{/}">Home</a>
+
+        <a th:href="@{/trips}"
+           sec:authorize="isAuthenticated()">
+            My Trips
+        </a>
+
+        <a th:href="@{/trips/new}"
+           sec:authorize="isAuthenticated()">
+            Plan a Trip
+        </a>
+		<a th:href="@{/profile}">My Profile</a>
+
+        <!-- Logged-in user profile -->
+
+		<div class="user-profile"
+		     sec:authorize="isAuthenticated()">
+
+		    <div class="profile-avatar">
+		        <span th:text="${#strings.substring(currentUserName, 0, 1).toUpperCase()}">
+		            A
+		        </span>
+		    </div>
+
+		    <div class="profile-info">
+		        <span class="profile-name"
+		              th:text="${currentUserName}">
+		            Ashutosh Yadav
+		        </span>
+
+		        <span class="profile-status">Logged in</span>
+		    </div>
+		</div>
+
+
+        <a th:href="@{/login}"
+           sec:authorize="isAnonymous()">
+            Login
+        </a>
+
+        <a th:href="@{/register}"
+           sec:authorize="isAnonymous()">
+            Register
+        </a>
+
+        <form th:action="@{/logout}"
+              method="post"
+              sec:authorize="isAuthenticated()">
+            <button class="nav-logout" type="submit">
+                Logout
+            </button>
+        </form>
+    </div>
+
+</nav>
+
+</body>
+</html>

@@ -1,1 +1,25 @@
-/tripnova/
+
+# Java compiled files
+*.class
+
+# Maven build output
+target/
+
+# IDE files
+.idea/
+.settings/
+.project
+.classpath
+.sts4-cache/
+
+# Environment variables
+.env
+
+# Maven build files
+target/
+
+# Environment files
+.env
+
+# Keep application secrets out of Git
+tripnova/src/main/resources/application.properties

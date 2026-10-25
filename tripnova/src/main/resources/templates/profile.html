@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | TripNova</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Common Navbar -->
+    <div th:replace="~{fragments/navbar :: navigation}"></div>
+
+    <main class="profile-page">
+
+        <!-- Page Heading -->
+        <section class="profile-heading">
+            <span class="profile-eyebrow">YOUR ACCOUNT</span>
+
+            <h1>My <span>Profile</span></h1>
+
+            <p>Manage your account and explore your travel journey.</p>
+        </section>
+
+        <!-- Profile Card -->
+        <section class="profile-card">
+
+            <!-- Decorative Background -->
+            <div class="profile-card-banner">
+                <div class="profile-banner-circle profile-banner-circle-one"></div>
+                <div class="profile-banner-circle profile-banner-circle-two"></div>
+            </div>
+
+            <!-- User Identity -->
+            <div class="profile-identity">
+
+                <div class="profile-avatar profile-avatar-large">
+                    <span
+                        th:text="${user.fullName != null and !user.fullName.isEmpty()
+                            ? #strings.substring(user.fullName, 0, 1).toUpperCase()
+                            : 'U'}">
+                        U
+                    </span>
+                </div>
+
+                <div class="profile-identity-info">
+                    <span class="profile-member-badge">
+                        <span class="profile-status-dot"></span>
+                        TripNova Member
+                    </span>
+
+                    <h2 th:text="${user.fullName}">User Name</h2>
+
+                    <p th:text="${user.email}">user@example.com</p>
+                </div>
+
+            </div>
+
+            <div class="profile-divider"></div>
+
+            <!-- Account Information -->
+            <div class="profile-information">
+
+                <div class="profile-section-heading">
+                    <div>
+                        <h3>Personal Information</h3>
+                        <p>Your registered account details</p>
+                    </div>
+
+                    <span class="profile-info-icon">✦</span>
+                </div>
+
+                <div class="profile-details-grid">
+
+                    <!-- Full Name -->
+                    <div class="profile-detail">
+                        <div class="profile-detail-icon">👤</div>
+
+                        <div class="profile-detail-content">
+                            <span>Full Name</span>
+
+                            <strong th:text="${user.fullName}">
+                                User Name
+                            </strong>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="profile-detail">
+                        <div class="profile-detail-icon">✉</div>
+
+                        <div class="profile-detail-content">
+                            <span>Email Address</span>
+
+                            <strong th:text="${user.email}">
+                                user@example.com
+                            </strong>
+                        </div>
+                    </div>
+
+                    <!-- Account Created -->
+                    <div class="profile-detail profile-detail-full">
+                        <div class="profile-detail-icon">📅</div>
+
+                        <div class="profile-detail-content">
+                            <span>Member Since</span>
+
+                            <strong
+                                th:text="${user.createdAt != null
+                                    ? #temporals.format(user.createdAt, 'dd MMM yyyy')
+                                    : 'Not available'}">
+                                Not available
+                            </strong>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Profile Actions -->
+            <div class="profile-actions">
+
+                <div class="profile-action-text">
+                    <h3>Ready for your next adventure?</h3>
+                    <p>Discover your saved trips and travel plans.</p>
+                </div>
+
+                <a th:href="@{/trips}" class="profile-trips-button">
+                    <span>Explore My Trips</span>
+                    <span class="profile-button-arrow">→</span>
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- Bottom Message -->
+        <div class="profile-footer-note">
+            <span>✦</span>
+            <p>Your next great journey starts with TripNova.</p>
+        </div>
+
+    </main>
+
+</body>
+</html>

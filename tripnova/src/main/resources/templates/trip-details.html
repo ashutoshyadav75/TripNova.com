@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Trip Details | TripNova</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Common Navbar -->
+    <div th:replace="~{fragments/navbar :: navigation}"></div>
+
+    <main class="trip-details-page">
+
+        <!-- Breadcrumb -->
+        <div class="trip-breadcrumb">
+            <a th:href="@{/trips}">My Trips</a>
+            <span>/</span>
+            <span>Trip Details</span>
+        </div>
+
+        <!-- Trip Hero -->
+        <section class="trip-hero-card">
+
+            <div class="trip-hero-decoration trip-hero-decoration-one"></div>
+            <div class="trip-hero-decoration trip-hero-decoration-two"></div>
+
+            <div class="trip-hero-content">
+
+                <span class="trip-details-eyebrow">
+                    <span class="trip-eyebrow-dot"></span>
+                    YOUR NEXT ADVENTURE
+                </span>
+
+                <h1>
+                    Your journey to
+                    <span th:text="${trip.destination}">Jaipur</span>
+                </h1>
+
+                <p>
+                    Everything about your trip, organized in one place.
+                    Your next adventure starts here.
+                </p>
+
+                <div class="trip-hero-meta">
+
+                    <div class="trip-hero-meta-item">
+                        <span class="trip-meta-icon">✈</span>
+                        <span>Trip #<strong th:text="${trip.id}">1</strong></span>
+                    </div>
+
+                    <div class="trip-hero-meta-item">
+                        <span class="trip-meta-icon">✦</span>
+                        <span>Personal Travel Plan</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="trip-hero-symbol" aria-hidden="true">
+                <span>✈</span>
+                <div class="trip-hero-orbit"></div>
+            </div>
+
+        </section>
+
+
+        <!-- Trip Information -->
+        <section class="trip-overview-section">
+
+            <div class="trip-section-title">
+                <div>
+                    <span class="trip-section-eyebrow">TRIP OVERVIEW</span>
+                    <h2>Your Trip at a Glance</h2>
+                    <p>Review the important details of your journey.</p>
+                </div>
+            </div>
+
+            <div class="trip-stats-grid">
+
+                <!-- Destination -->
+                <article class="trip-stat-card">
+                    <div class="trip-stat-icon trip-stat-blue">⌖</div>
+
+                    <div class="trip-stat-label">Destination</div>
+
+                    <div class="trip-stat-value"
+                         th:text="${trip.destination}">
+                        Jaipur
+                    </div>
+
+                    <div class="trip-stat-caption">Your travel destination</div>
+                </article>
+
+                <!-- Start Date -->
+                <article class="trip-stat-card">
+                    <div class="trip-stat-icon trip-stat-purple">▦</div>
+
+                    <div class="trip-stat-label">Start Date</div>
+
+                    <div class="trip-stat-value"
+                         th:text="${trip.startDate}">
+                    </div>
+
+                    <div class="trip-stat-caption">Journey begins</div>
+                </article>
+
+                <!-- End Date -->
+                <article class="trip-stat-card">
+                    <div class="trip-stat-icon trip-stat-orange">▣</div>
+
+                    <div class="trip-stat-label">End Date</div>
+
+                    <div class="trip-stat-value"
+                         th:text="${trip.endDate}">
+                    </div>
+
+                    <div class="trip-stat-caption">Journey ends</div>
+                </article>
+
+                <!-- Budget -->
+                <article class="trip-stat-card">
+                    <div class="trip-stat-icon trip-stat-green">₹</div>
+
+                    <div class="trip-stat-label">Total Budget</div>
+
+                    <div class="trip-stat-value">
+                        ₹<span th:text="${trip.budget}"></span>
+                    </div>
+
+                    <div class="trip-stat-caption">Your planned budget</div>
+                </article>
+
+                <!-- Travelers -->
+                <article class="trip-stat-card">
+                    <div class="trip-stat-icon trip-stat-pink">♧</div>
+
+                    <div class="trip-stat-label">Travelers</div>
+
+                    <div class="trip-stat-value"
+                         th:text="${trip.travelers}">
+                    </div>
+
+                    <div class="trip-stat-caption">People travelling</div>
+                </article>
+
+                <!-- Trip ID -->
+                <article class="trip-stat-card">
+                    <div class="trip-stat-icon trip-stat-indigo">#</div>
+
+                    <div class="trip-stat-label">Trip ID</div>
+
+                    <div class="trip-stat-value"
+                         th:text="${trip.id}">
+                        1
+                    </div>
+
+                    <div class="trip-stat-caption">Your trip reference</div>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- Interests -->
+        <section class="trip-interests-card">
+
+            <div class="trip-interests-heading">
+                <div class="trip-stat-icon trip-stat-blue">✧</div>
+
+                <div>
+                    <h3>Your Travel Interests</h3>
+                    <p>Things you're interested in exploring on this trip.</p>
+                </div>
+            </div>
+
+            <div class="trip-interests-content"
+                 th:text="${trip.interests != null and !#strings.isEmpty(trip.interests)
+                    ? trip.interests
+                    : 'No interests added yet.'}">
+                Culture, food and sightseeing
+            </div>
+
+        </section>
+
+
+        <!-- Trip Actions -->
+        <section class="trip-actions-section">
+
+            <div class="trip-actions-heading">
+                <span class="trip-section-eyebrow">MANAGE YOUR JOURNEY</span>
+                <h2>What would you like to do?</h2>
+            </div>
+
+            <div class="trip-actions-grid">
+
+                <!-- Back to Trips -->
+                <a class="trip-action-card trip-action-back"
+                   th:href="@{/trips}">
+
+                    <div class="trip-action-icon">←</div>
+
+                    <div class="trip-action-text">
+                        <h3>My Trips</h3>
+                        <p>Return to all your saved trips.</p>
+                    </div>
+
+                    <span class="trip-action-arrow">→</span>
+                </a>
+
+
+                <!-- Edit Trip -->
+                <a class="trip-action-card trip-action-edit"
+                   th:href="@{/trips/{id}/edit(id=${trip.id})}">
+
+                    <div class="trip-action-icon">✎</div>
+
+                    <div class="trip-action-text">
+                        <h3>Edit This Trip</h3>
+                        <p>Update your travel preferences.</p>
+                    </div>
+
+                    <span class="trip-action-arrow">→</span>
+                </a>
+
+
+                <!-- Regenerate Itinerary -->
+                <a class="trip-action-card trip-action-generate"
+                   th:href="@{/plan-trip(tripId=${trip.id})}">
+
+                    <div class="trip-action-icon">✦</div>
+
+                    <div class="trip-action-text">
+                        <h3>Plan with AI</h3>
+                        <p>Generate or regenerate your itinerary.</p>
+                    </div>
+
+                    <span class="trip-action-arrow">→</span>
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- Saved Itinerary -->
+        <section class="trip-itinerary-section"
+                 th:if="${trip.itinerary != null and !#strings.isEmpty(trip.itinerary)}">
+
+            <div class="trip-itinerary-header">
+
+                <div class="trip-itinerary-heading">
+
+                    <div class="trip-itinerary-icon">✦</div>
+
+                    <div>
+                        <span class="trip-section-eyebrow">
+                            YOUR PERSONAL TRAVEL PLAN
+                        </span>
+
+                        <h2>AI-Generated Itinerary</h2>
+
+                        <p>
+                            Your saved travel plan for
+                            <strong th:text="${trip.destination}">Jaipur</strong>.
+                        </p>
+                    </div>
+
+                </div>
+
+                <span class="trip-itinerary-badge">
+                    <span></span>
+                    Itinerary Saved
+                </span>
+
+            </div>
+
+
+            <div class="trip-itinerary-body">
+
+                <div class="trip-itinerary-intro">
+                    <span class="trip-itinerary-intro-icon">☼</span>
+
+                    <div>
+                        <h3>Your adventure awaits</h3>
+                        <p>
+                            Explore your itinerary below and get ready for your trip.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Preserve original itinerary text -->
+                <div class="trip-itinerary-content"
+                     th:text="${trip.itinerary}">
+                    Your saved itinerary will appear here.
+                </div>
+
+            </div>
+
+
+            <div class="trip-itinerary-footer">
+
+                <div>
+                    <strong>Want to make changes?</strong>
+                    <p>You can generate a new travel plan whenever you need.</p>
+                </div>
+
+                <a class="trip-primary-button"
+                   th:href="@{/plan-trip(tripId=${trip.id})}">
+                    Regenerate Itinerary
+                    <span>→</span>
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- Empty Itinerary State -->
+        <section class="trip-empty-itinerary"
+                 th:if="${trip.itinerary == null or #strings.isEmpty(trip.itinerary)}">
+
+            <div class="trip-empty-icon">
+                <span>✈</span>
+            </div>
+
+            <span class="trip-section-eyebrow">YOUR NEXT ADVENTURE</span>
+
+            <h2>Your itinerary is waiting!</h2>
+
+            <p>
+                Your trip to
+                <strong th:text="${trip.destination}">Jaipur</strong>
+                is ready to be planned. Generate a personalized travel itinerary
+                to get started.
+            </p>
+
+            <a class="trip-primary-button"
+               th:href="@{/plan-trip(tripId=${trip.id})}">
+                <span>✦</span>
+                Generate My Itinerary
+                <span>→</span>
+            </a>
+
+        </section>
+
+
+        <!-- Footer Message -->
+        <div class="trip-details-footer">
+            <span>✦</span>
+            <p>Explore more. Worry less. Travel with TripNova.</p>
+        </div>
+
+    </main>
+
+</body>
+</html>

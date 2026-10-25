@@ -1,0 +1,145 @@
+```html
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | TripNova</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="auth-page">
+
+    <!-- Navigation -->
+    <nav class="navbar auth-navbar">
+
+        <a class="logo" th:href="@{/}">
+            ✦ TripNova<span>.</span>
+        </a>
+
+        <div class="nav-links">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/login}">Login</a>
+        </div>
+
+    </nav>
+
+
+    <!-- Registration Section -->
+    <main class="page-container">
+
+        <section class="form-card">
+
+            <div class="register-icon">✦</div>
+
+            <p class="eyebrow">JOIN TRIPNOVA</p>
+
+            <h1>Create your account</h1>
+
+            <p class="subtitle">
+                Your next adventure starts here.
+                Create an account to begin planning your journeys.
+            </p>
+
+
+            <form th:action="@{/register}"
+                  th:object="${registerForm}"
+                  method="post">
+
+                <!-- Full Name -->
+                <div class="field">
+
+                    <label for="fullName">Full name</label>
+
+                    <input id="fullName"
+                           type="text"
+                           th:field="*{fullName}"
+                           placeholder="Enter your full name"
+                           autocomplete="name"
+                           required>
+
+                    <small class="error"
+                           th:if="${#fields.hasErrors('fullName')}"
+                           th:errors="*{fullName}">
+                    </small>
+
+                </div>
+
+
+                <!-- Email -->
+                <div class="field">
+
+                    <label for="email">Email address</label>
+
+                    <input id="email"
+                           type="email"
+                           th:field="*{email}"
+                           placeholder="you@example.com"
+                           autocomplete="email"
+                           required>
+
+                    <small class="error"
+                           th:if="${#fields.hasErrors('email')}"
+                           th:errors="*{email}">
+                    </small>
+
+                </div>
+
+
+                <!-- Password -->
+                <div class="field">
+
+                    <label for="password">Password</label>
+
+                    <input id="password"
+                           type="password"
+                           th:field="*{password}"
+                           placeholder="Create a strong password"
+                           minlength="8"
+                           maxlength="72"
+                           autocomplete="new-password"
+                           required>
+
+                    <small class="password-hint">
+                        Use at least 8 characters.
+                    </small>
+
+                    <small class="error"
+                           th:if="${#fields.hasErrors('password')}"
+                           th:errors="*{password}">
+                    </small>
+
+                </div>
+
+
+                <!-- Submit -->
+                <button class="btn register-submit" type="submit">
+                    Create Account
+                    <span>→</span>
+                </button>
+
+            </form>
+
+
+            <div class="auth-divider">
+                <span>Already part of TripNova?</span>
+            </div>
+
+            <p class="register-login-link">
+                <a th:href="@{/login}">Login to your account</a>
+            </p>
+
+            <p class="terms-note">
+                Start planning your next unforgettable journey with TripNova.
+            </p>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
+```

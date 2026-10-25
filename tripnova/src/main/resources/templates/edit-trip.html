@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Trip | TripNova</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="trip-form-page">
+
+    <!-- Shared Navigation -->
+    <div th:replace="~{fragments/navbar :: navigation}"></div>
+
+    <main class="trip-form-container">
+
+        <!-- Page Heading -->
+        <header class="trip-form-heading">
+
+            <div class="trip-form-icon">✎</div>
+
+            <p class="eyebrow">UPDATE YOUR ADVENTURE</p>
+
+            <h1>Edit your <span>trip.</span></h1>
+
+            <p class="subtitle">
+                Plans can change. Update your travel details
+                and get ready for your next adventure.
+            </p>
+
+        </header>
+
+        <!-- Edit Form -->
+        <section class="form-card trip-creator-card">
+
+            <div class="trip-form-card-heading">
+
+                <div>
+                    <h2>Update Trip Details</h2>
+                    <p>Make your changes below and save them.</p>
+                </div>
+
+                <span class="trip-step-badge">EDIT TRIP</span>
+
+            </div>
+
+            <form th:action="@{/trips/{id}/edit(id=${tripId})}"
+                  th:object="${tripForm}"
+                  method="post">
+
+                <!-- Destination -->
+                <div class="field">
+
+                    <label for="destination">
+                        Destination <span class="required-star">*</span>
+                    </label>
+
+                    <input
+                        id="destination"
+                        type="text"
+                        th:field="*{destination}"
+                        placeholder="e.g. Jaipur, Rajasthan"
+                        required>
+
+                    <small class="error"
+                           th:errors="*{destination}"></small>
+
+                </div>
+
+                <!-- Dates -->
+                <div class="trip-form-section-label">
+                    <span>01</span>
+                    Travel Dates
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="field">
+
+                        <label for="startDate">
+                            Start date <span class="required-star">*</span>
+                        </label>
+
+                        <input
+                            id="startDate"
+                            type="date"
+                            th:field="*{startDate}"
+                            required>
+
+                        <small class="error"
+                               th:errors="*{startDate}"></small>
+
+                    </div>
+
+                    <div class="field">
+
+                        <label for="endDate">
+                            End date <span class="required-star">*</span>
+                        </label>
+
+                        <input
+                            id="endDate"
+                            type="date"
+                            th:field="*{endDate}"
+                            required>
+
+                        <small class="error"
+                               th:errors="*{endDate}"></small>
+
+                    </div>
+
+                </div>
+
+                <!-- Budget and Travelers -->
+                <div class="trip-form-section-label">
+                    <span>02</span>
+                    Budget & Travelers
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="field">
+
+                        <label for="budget">
+                            Budget (₹) <span class="required-star">*</span>
+                        </label>
+
+                        <input
+                            id="budget"
+                            type="number"
+                            th:field="*{budget}"
+                            min="1"
+                            step="0.01"
+                            placeholder="e.g. 10000"
+                            required>
+
+                        <small class="error"
+                               th:errors="*{budget}"></small>
+
+                    </div>
+
+                    <div class="field">
+
+                        <label for="travelers">
+                            Travelers <span class="required-star">*</span>
+                        </label>
+
+                        <input
+                            id="travelers"
+                            type="number"
+                            th:field="*{travelers}"
+                            min="1"
+                            step="1"
+                            placeholder="e.g. 2"
+                            required>
+
+                        <small class="error"
+                               th:errors="*{travelers}"></small>
+
+                    </div>
+
+                </div>
+
+                <!-- Interests -->
+                <div class="trip-form-section-label">
+                    <span>03</span>
+                    Travel Preferences
+                </div>
+
+                <div class="field">
+
+                    <label for="interests">
+                        Travel interests <span class="required-star">*</span>
+                    </label>
+
+                    <select
+                        id="interests"
+                        th:field="*{interests}"
+                        required>
+
+                        <option value="">Choose your interest</option>
+
+                        <option value="Adventure">Adventure</option>
+                        <option value="Nature">Nature</option>
+                        <option value="History">History and forts</option>
+                        <option value="Food">Local food</option>
+                        <option value="Culture">Culture and heritage</option>
+                        <option value="Relaxation">Relaxation</option>
+
+                    </select>
+
+                    <small class="error"
+                           th:errors="*{interests}"></small>
+
+                </div>
+
+                <!-- Buttons -->
+                <div class="edit-trip-actions">
+
+                    <button class="btn trip-submit-btn"
+                            type="submit">
+                        <span>Save Changes</span>
+                        <span class="submit-arrow">→</span>
+                    </button>
+
+                    <a class="btn btn-secondary edit-cancel-btn"
+                       th:href="@{/trips/{id}(id=${tripId})}">
+                        Cancel
+                    </a>
+
+                </div>
+
+                <p class="trip-form-footer-note">
+                    Review your details before saving your changes.
+                </p>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

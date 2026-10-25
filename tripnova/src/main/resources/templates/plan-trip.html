@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Plan Your Trip | TripNova</title>
+
+    <!-- Common TripNova CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body class="plan-trip-page">
+
+    <!-- NAVBAR -->
+    <header class="navbar plan-navbar">
+
+        <a class="logo" th:href="@{/}">
+            TripNova<span>.</span>
+        </a>
+
+        <nav class="nav-links">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/trips}">My Trips</a>
+            <a th:href="@{/plan-trip}" class="plan-nav-active">
+                Plan a Trip
+            </a>
+        </nav>
+
+    </header>
+
+
+    <main class="plan-trip-container">
+
+        <!-- HERO SECTION -->
+        <section class="plan-trip-hero">
+
+            <div class="plan-hero-content">
+
+                <span class="plan-hero-badge">
+                    ✦ YOUR NEXT ADVENTURE STARTS HERE
+                </span>
+
+                <h1>
+                    Every great journey<br>
+                    begins with <span>a plan.</span>
+                </h1>
+
+                <p>
+                    Tell us where you want to go, set your budget and
+                    share your interests. Let TripNova AI help you
+                    create a personalized travel itinerary.
+                </p>
+
+                <div class="plan-hero-features">
+                    <span>✓ Personalized itineraries</span>
+                    <span>✓ Budget-conscious planning</span>
+                    <span>✓ Day-wise travel suggestions</span>
+                </div>
+
+            </div>
+
+            <div class="plan-hero-visual" aria-hidden="true">
+
+                <div class="plan-visual-orbit orbit-one"></div>
+                <div class="plan-visual-orbit orbit-two"></div>
+
+                <div class="plan-visual-card">
+                    <span class="plan-visual-plane">✈</span>
+
+                    <div>
+                        <strong>Your next destination</strong>
+                        <small>Adventure is calling</small>
+                    </div>
+                </div>
+
+                <span class="plan-floating-star star-one">✦</span>
+                <span class="plan-floating-star star-two">✧</span>
+                <span class="plan-floating-star star-three">✦</span>
+
+            </div>
+
+        </section>
+
+
+        <!-- FORM LAYOUT -->
+        <section class="plan-trip-layout">
+
+            <!-- LEFT INFORMATION PANEL -->
+            <aside class="plan-trip-sidebar">
+
+                <div class="plan-sidebar-heading">
+                    <span class="plan-sidebar-icon">✈</span>
+
+                    <h2>Plan your journey</h2>
+
+                    <p>
+                        A few details are all we need to help you
+                        get started.
+                    </p>
+                </div>
+
+
+                <div class="plan-step">
+
+                    <span class="plan-step-number">01</span>
+
+                    <div>
+                        <h3>Choose your destination</h3>
+                        <p>Tell us where your adventure will take you.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="plan-step">
+
+                    <span class="plan-step-number">02</span>
+
+                    <div>
+                        <h3>Set your travel details</h3>
+                        <p>Choose your dates, budget and travel group.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="plan-step">
+
+                    <span class="plan-step-number">03</span>
+
+                    <div>
+                        <h3>Generate your itinerary</h3>
+                        <p>Get AI-powered suggestions for your trip.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="plan-sidebar-note">
+                    <span>✦</span>
+
+                    <p>
+                        <strong>Your trip, your way.</strong>
+                        <br>
+                        Customize your journey around your interests
+                        and budget.
+                    </p>
+                </div>
+
+            </aside>
+
+
+            <!-- MAIN FORM -->
+            <section class="plan-form-card">
+
+                <div class="plan-form-heading">
+
+                    <div>
+                        <span class="plan-form-eyebrow">
+                            TRIP DETAILS
+                        </span>
+
+                        <h2>Let's plan your trip</h2>
+
+                        <p>
+                            Fill in the details below to get started.
+                        </p>
+                    </div>
+
+                    <span class="plan-form-icon">⌖</span>
+
+                </div>
+
+
+                <!-- ERROR MESSAGE -->
+                <div class="plan-error-message"
+                     th:if="${errorMessage}"
+                     role="alert"
+                     th:text="${errorMessage}">
+                    Something went wrong. Please try again.
+                </div>
+
+
+                <!-- TRIP FORM -->
+                <form th:action="@{/plan-trip}"
+                      th:object="${tripPlanRequest}"
+                      method="post"
+                      class="plan-trip-form">
+
+                    <!-- Preserve existing trip ID -->
+                    <input type="hidden"
+                           name="tripId"
+                           th:if="${tripId != null}"
+                           th:value="${tripId}">
+
+
+                    <!-- DESTINATION -->
+                    <div class="plan-form-field">
+
+                        <label for="destination">
+                            Destination
+                            <span class="required-star">*</span>
+                        </label>
+
+                        <div class="plan-input-wrapper">
+
+                            <span class="plan-input-icon">⌖</span>
+
+                            <input type="text"
+                                   id="destination"
+                                   th:field="*{destination}"
+                                   placeholder="e.g. Manali, Goa, Jaipur"
+                                   maxlength="150"
+                                   autocomplete="off"
+                                   required>
+
+                        </div>
+
+                        <small class="plan-field-hint">
+                            Which place would you love to explore?
+                        </small>
+
+                    </div>
+
+
+                    <!-- TRAVEL DATES -->
+                    <div class="plan-form-row">
+
+                        <div class="plan-form-field">
+
+                            <label for="startDate">
+                                Start Date
+                                <span class="required-star">*</span>
+                            </label>
+
+                            <div class="plan-input-wrapper">
+
+                                <span class="plan-input-icon">▦</span>
+
+                                <input type="date"
+                                       id="startDate"
+                                       th:field="*{startDate}"
+                                       required>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="plan-form-field">
+
+                            <label for="endDate">
+                                End Date
+                                <span class="required-star">*</span>
+                            </label>
+
+                            <div class="plan-input-wrapper">
+
+                                <span class="plan-input-icon">▦</span>
+
+                                <input type="date"
+                                       id="endDate"
+                                       th:field="*{endDate}"
+                                       required>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <p class="plan-date-error"
+                       id="planDateError"
+                       role="alert"
+                       hidden>
+                        End date cannot be earlier than the start date.
+                    </p>
+
+
+                    <!-- BUDGET -->
+                    <div class="plan-form-field">
+
+                        <label for="budget">
+                            Total Budget
+                            <span class="required-star">*</span>
+                        </label>
+
+                        <div class="plan-input-wrapper">
+
+                            <span class="plan-input-icon">₹</span>
+
+                            <input type="number"
+                                   id="budget"
+                                   th:field="*{budget}"
+                                   placeholder="e.g. 15000"
+                                   min="1"
+                                   max="1000000000"
+                                   step="0.01"
+                                   required>
+
+                        </div>
+
+                        <small class="plan-field-hint">
+                            Enter your total trip budget in Indian rupees.
+                        </small>
+
+                    </div>
+
+
+                    <!-- TRAVELERS -->
+                    <div class="plan-form-field">
+
+                        <label for="travelers">
+                            Number of Travelers
+                            <span class="required-star">*</span>
+                        </label>
+
+                        <div class="plan-input-wrapper">
+
+                            <span class="plan-input-icon">♧</span>
+
+                            <input type="number"
+                                   id="travelers"
+                                   th:field="*{travelers}"
+                                   placeholder="e.g. 2"
+                                   min="1"
+                                   max="50"
+                                   step="1"
+                                   required>
+
+                        </div>
+
+                        <small class="plan-field-hint">
+                            How many people are joining the adventure?
+                        </small>
+
+                    </div>
+
+
+                    <!-- INTERESTS -->
+                    <div class="plan-form-field">
+
+                        <label for="interests">
+                            Your Interests
+                            <span class="required-star">*</span>
+                        </label>
+
+                        <div class="plan-input-wrapper plan-textarea-wrapper">
+
+                            <span class="plan-input-icon plan-textarea-icon">
+                                ✧
+                            </span>
+
+                            <textarea id="interests"
+                                      th:field="*{interests}"
+                                      placeholder="Nature, adventure, local food, beaches, history..."
+                                      rows="4"
+                                      maxlength="1500"
+                                      required></textarea>
+
+                        </div>
+
+                        <small class="plan-field-hint">
+                            Share what you enjoy so your itinerary
+                            can better match your preferences.
+                        </small>
+
+                    </div>
+
+
+                    <!-- SUBMIT -->
+                    <button type="submit"
+                            class="plan-submit-btn">
+
+                        <span class="plan-submit-text">
+                            ✦ Generate My Itinerary
+                        </span>
+
+                        <span class="plan-submit-arrow">→</span>
+
+                    </button>
+
+
+                    <p class="plan-form-footer-note">
+                        Your travel plan will be generated using
+                        your submitted trip details.
+                    </p>
+
+                </form>
+
+            </section>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="plan-trip-footer">
+
+        <a class="logo" th:href="@{/}">
+            TripNova<span>.</span>
+        </a>
+
+        <p>Plan smarter. Travel better. Make memories that last.</p>
+
+        <small>© 2026 TripNova. All rights reserved.</small>
+
+    </footer>
+
+
+    <!-- DATE VALIDATION AND LOADING STATE -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const form = document.querySelector(".plan-trip-form");
+            const startDate = document.getElementById("startDate");
+            const endDate = document.getElementById("endDate");
+            const dateError = document.getElementById("planDateError");
+            const submitButton = document.querySelector(".plan-submit-btn");
+
+            if (!form || !startDate || !endDate || !submitButton) {
+                return;
+            }
+
+            function validateDates() {
+
+                const invalid =
+                    startDate.value &&
+                    endDate.value &&
+                    endDate.value < startDate.value;
+
+                dateError.hidden = !invalid;
+
+                endDate.setCustomValidity(
+                    invalid
+                        ? "End date cannot be earlier than the start date."
+                        : ""
+                );
+
+                return !invalid;
+            }
+
+            startDate.addEventListener("change", function () {
+
+                endDate.min = startDate.value;
+
+                validateDates();
+
+            });
+
+            endDate.addEventListener("change", validateDates);
+            startDate.addEventListener("change", validateDates);
+
+            form.addEventListener("submit", function (event) {
+
+                if (!validateDates()) {
+                    event.preventDefault();
+                    endDate.reportValidity();
+                    return;
+                }
+
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    form.reportValidity();
+                    return;
+                }
+
+                submitButton.disabled = true;
+                submitButton.classList.add("is-generating");
+
+                submitButton.innerHTML =
+                    '<span class="plan-loading-spinner"></span>' +
+                    '<span>Generating your itinerary...</span>';
+
+            });
+
+        });
+    </script>
+
+</body>
+</html>

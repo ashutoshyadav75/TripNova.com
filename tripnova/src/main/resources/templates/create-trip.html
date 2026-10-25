@@ -1,0 +1,224 @@
+```html
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Your Trip | TripNova</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="trip-form-page">
+
+    <!-- Shared Navigation -->
+    <div th:replace="~{fragments/navbar :: navigation}"></div>
+
+    <main class="trip-form-container">
+
+        <!-- Page Heading -->
+        <header class="trip-form-heading">
+
+            <div class="trip-form-icon">✈</div>
+
+            <p class="eyebrow">YOUR NEXT ADVENTURE</p>
+
+            <h1>Plan your next <span>trip.</span></h1>
+
+            <p class="subtitle">
+                Tell us what your ideal trip looks like.
+                We'll help you turn your travel dreams into a plan.
+            </p>
+
+        </header>
+
+        <!-- Trip Form -->
+        <section class="form-card trip-creator-card">
+
+            <div class="trip-form-card-heading">
+                <div>
+                    <h2>Trip Details</h2>
+                    <p>Fill in the details to get started.</p>
+                </div>
+
+                <span class="trip-step-badge">STEP 01</span>
+            </div>
+
+            <form th:action="@{/trips}"
+                  th:object="${tripForm}"
+                  method="post">
+
+                <!-- Destination -->
+                <div class="field trip-destination-field">
+
+                    <label for="destination">
+                        Destination <span class="required-star">*</span>
+                    </label>
+
+                    <input
+                        id="destination"
+                        type="text"
+                        th:field="*{destination}"
+                        placeholder="e.g. Jaipur, Rajasthan"
+                        autocomplete="off"
+                        required>
+
+                    <small class="error"
+                           th:errors="*{destination}"></small>
+
+                </div>
+
+                <!-- Travel Dates -->
+                <div class="trip-form-section-label">
+                    <span>01</span>
+                    Travel Dates
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="field">
+
+                        <label for="startDate">
+                            Start date <span class="required-star">*</span>
+                        </label>
+
+                        <input
+                            id="startDate"
+                            type="date"
+                            th:field="*{startDate}"
+                            required>
+
+                        <small class="error"
+                               th:errors="*{startDate}"></small>
+
+                    </div>
+
+                    <div class="field">
+
+                        <label for="endDate">
+                            End date <span class="required-star">*</span>
+                        </label>
+
+                        <input
+                            id="endDate"
+                            type="date"
+                            th:field="*{endDate}"
+                            required>
+
+                        <small class="error"
+                               th:errors="*{endDate}"></small>
+
+                    </div>
+
+                </div>
+
+                <!-- Budget and Travelers -->
+                <div class="trip-form-section-label">
+                    <span>02</span>
+                    Budget & Travelers
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="field">
+
+                        <label for="budget">
+                            Total budget (₹) <span class="required-star">*</span>
+                        </label>
+
+                        <input
+                            id="budget"
+                            type="number"
+                            th:field="*{budget}"
+                            min="1"
+                            step="1"
+                            placeholder="e.g. 10000"
+                            required>
+
+                        <small class="field-hint">
+                            Your estimated total trip budget.
+                        </small>
+
+                        <small class="error"
+                               th:errors="*{budget}"></small>
+
+                    </div>
+
+                    <div class="field">
+
+                        <label for="travelers">
+                            Number of travelers <span class="required-star">*</span>
+                        </label>
+
+                        <input
+                            id="travelers"
+                            type="number"
+                            th:field="*{travelers}"
+                            min="1"
+                            step="1"
+                            placeholder="e.g. 2"
+                            required>
+
+                        <small class="field-hint">
+                            How many people are traveling?
+                        </small>
+
+                        <small class="error"
+                               th:errors="*{travelers}"></small>
+
+                    </div>
+
+                </div>
+
+                <!-- Interests -->
+                <div class="trip-form-section-label">
+                    <span>03</span>
+                    Travel Preferences
+                </div>
+
+                <div class="field">
+
+                    <label for="interests">
+                        What do you love? <span class="required-star">*</span>
+                    </label>
+
+                    <select id="interests"
+                            th:field="*{interests}"
+                            required>
+
+                        <option value="">Choose your travel interest</option>
+
+                        <option value="Adventure">Adventure & Activities</option>
+                        <option value="Nature">Nature & Mountains</option>
+                        <option value="History">History & Forts</option>
+                        <option value="Food">Local Food & Cuisine</option>
+                        <option value="Culture">Culture & Heritage</option>
+                        <option value="Relaxation">Relaxation & Leisure</option>
+
+                    </select>
+
+                    <small class="error"
+                           th:errors="*{interests}"></small>
+
+                </div>
+
+                <!-- Submit -->
+                <button class="btn trip-submit-btn" type="submit">
+                    <span>Create My Trip</span>
+                    <span class="submit-arrow">→</span>
+                </button>
+
+                <p class="trip-form-footer-note">
+                    Your next adventure starts with a single step.
+                </p>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

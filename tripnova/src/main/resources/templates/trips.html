@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Trips | TripNova</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="trips-page">
+
+    <!-- Existing Navigation -->
+    <div th:replace="~{fragments/navbar :: navigation}"></div>
+
+    <main class="trips-container">
+
+        <!-- Dashboard Header -->
+        <header class="dashboard-header trips-header">
+
+            <div class="dashboard-heading">
+                <p class="eyebrow">YOUR TRAVEL DASHBOARD</p>
+
+                <h1>My <span>Trips</span></h1>
+
+                <p class="subtitle">
+                    Every journey has a story. Start planning your next one.
+                </p>
+            </div>
+
+            <a th:href="@{/plan-trip}" class="trips-create-btn">
+                <span>+</span> Plan a Trip
+            </a>
+
+        </header>
+
+        <!-- Dashboard Summary -->
+        <section class="trip-summary"
+                 th:unless="${#lists.isEmpty(trips)}">
+
+            <div class="summary-item">
+                <div class="summary-icon">✈</div>
+                <div>
+                    <p>Total Adventures</p>
+                    <h3 th:text="${#lists.size(trips)}">0</h3>
+                </div>
+            </div>
+
+            <div class="summary-message">
+                <span>✦</span>
+                Your next unforgettable journey awaits.
+            </div>
+
+        </section>
+
+        <!-- Empty State -->
+        <section th:if="${#lists.isEmpty(trips)}"
+                 class="trips-empty-state">
+
+            <div class="empty-icon">🌍</div>
+
+            <p class="eyebrow">YOUR JOURNEY BEGINS HERE</p>
+
+            <h2>Your next adventure is waiting.</h2>
+
+            <p>
+                You haven't created any trips yet.
+                Let's discover somewhere amazing!
+            </p>
+
+            <a class="trips-create-btn" th:href="@{/trips/new}">
+                + Create Your First Trip
+            </a>
+
+        </section>
+
+        <!-- Trips Grid -->
+        <section class="trips-grid"
+                 th:unless="${#lists.isEmpty(trips)}">
+
+            <article class="trip-card"
+                     th:each="trip : ${trips}">
+
+                <!-- Card Header -->
+                <div class="trip-card-header">
+
+                    <span class="trip-badge">
+                        YOUR ADVENTURE
+                    </span>
+
+                    <span class="trip-plane">✈</span>
+
+                </div>
+
+                <!-- Destination -->
+                <div class="trip-destination">
+                    <p class="destination-label">DESTINATION</p>
+
+                    <h2 th:text="${trip.destination}">
+                        Jaipur
+                    </h2>
+                </div>
+
+                <!-- Dates -->
+                <div class="trip-info-row">
+
+                    <div class="trip-info-icon">📅</div>
+
+                    <div>
+                        <p class="trip-info-label">TRAVEL DATES</p>
+
+                        <p class="trip-meta">
+                            <span th:text="${trip.startDate}">Start</span>
+                            <span class="date-separator">→</span>
+                            <span th:text="${trip.endDate}">End</span>
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Budget -->
+                <div class="trip-budget-box">
+
+                    <div>
+                        <p class="trip-info-label">YOUR BUDGET</p>
+
+                        <h3 class="trip-budget">
+                            ₹<span th:text="${trip.budget}">0</span>
+                        </h3>
+                    </div>
+
+                    <span class="budget-icon">₹</span>
+
+                </div>
+
+                <!-- Travelers -->
+                <div class="trip-details">
+
+                    <div class="detail-item">
+                        <span class="detail-icon">👥</span>
+
+                        <div>
+                            <p class="trip-info-label">TRAVELERS</p>
+                            <strong th:text="${trip.travelers}">2</strong>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-icon">✨</span>
+
+                        <div>
+                            <p class="trip-info-label">INTERESTS</p>
+                            <strong th:text="${trip.interests}">Adventure</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Actions -->
+                <div class="trip-actions">
+
+                    <a class="trip-action-btn view-trip-btn"
+                       th:href="@{/trips/{id}(id=${trip.id})}">
+                        View Trip <span>→</span>
+                    </a>
+
+                    <div class="trip-secondary-actions">
+
+                        <a class="trip-action-btn edit-trip-btn"
+                           th:href="@{/trips/{id}/edit(id=${trip.id})}">
+                            Edit
+                        </a>
+
+                        <a class="trip-action-btn regenerate-trip-btn"
+                           th:href="@{/plan-trip(tripId=${trip.id})}">
+                            Regenerate Itinerary
+                        </a>
+
+                        <form class="delete-trip-form"
+                              th:action="@{/trips/{id}/delete(id=${trip.id})}"
+                              method="post"
+                              onsubmit="return confirm('Are you sure you want to delete this trip?')">
+
+                            <button type="submit"
+                                    class="trip-action-btn delete-trip-btn">
+                                Delete
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- Bottom CTA -->
+        <section class="trips-bottom-cta"
+                 th:unless="${#lists.isEmpty(trips)}">
+
+            <div>
+                <p class="eyebrow">READY FOR MORE?</p>
+                <h2>Somewhere new is calling.</h2>
+                <p>Turn your next travel idea into a real adventure.</p>
+            </div>
+
+            <a th:href="@{/plan-trip}" class="trips-create-btn">
+                Plan Your Next Trip →
+            </a>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

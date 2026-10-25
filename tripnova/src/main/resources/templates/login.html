@@ -1,0 +1,114 @@
+```html
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | TripNova</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="auth-page">
+
+    <!-- Navbar -->
+    <nav class="navbar auth-navbar">
+        <a class="logo" th:href="@{/}">
+            TripNova<span>.</span>
+        </a>
+
+        <div class="nav-links">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/register}">Register</a>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <main class="page-container">
+
+        <section class="form-card login-card">
+
+            <div class="login-icon">✈</div>
+
+            <p class="eyebrow">WELCOME BACK</p>
+
+            <h1>Login to TripNova</h1>
+
+            <p class="subtitle">
+                Your next adventure is just one step away.
+            </p>
+
+            <!-- Registration Success -->
+            <div th:if="${param.registered}"
+                 class="notice notice-success">
+                Account created successfully. Please log in.
+            </div>
+
+            <!-- Login Error -->
+            <div th:if="${param.error}"
+                 class="notice notice-error">
+                Invalid email or password.
+            </div>
+
+            <!-- Logout Message -->
+            <div th:if="${param.logout}"
+                 class="notice">
+                You have been logged out.
+            </div>
+
+            <!-- Login Form -->
+            <form th:action="@{/login}" method="post">
+
+                <div class="field">
+                    <label for="email">Email address</label>
+
+                    <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        autocomplete="username"
+                        required>
+                </div>
+
+                <div class="field">
+                    <label for="password">Password</label>
+
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
+                </div>
+
+                <button class="btn login-submit" type="submit">
+                    Login to Your Account
+                    <span aria-hidden="true">→</span>
+                </button>
+
+            </form>
+
+            <div class="auth-divider">
+                <span>YOUR JOURNEY STARTS HERE</span>
+            </div>
+
+            <p class="register-login-link">
+                New to TripNova?
+                <a th:href="@{/register}">Create an account</a>
+            </p>
+
+            <p class="terms-note">
+                Plan smarter. Travel farther. Make memories.
+            </p>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
+```

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Your Itinerary | TripNova</title>
+
+    <!-- Common TripNova Theme -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+	
+	<!-- Leaflet Map CSS -->
+		  <link rel="stylesheet"
+		        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+		  <!-- TripNova Map CSS -->
+		  <link rel="stylesheet" th:href="@{/css/map.css}">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+		  
+		  
+		 
+</head>
+
+<body class="itinerary-page">
+
+    <!-- NAVBAR -->
+    <header class="navbar itinerary-navbar">
+
+        <a class="logo" th:href="@{/}">
+            TripNova<span>.</span>
+        </a>
+
+        <nav class="nav-links">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/trips}">My Trips</a>
+            <a th:href="@{/plan-trip}" class="nav-plan-link">
+                Plan a Trip
+            </a>
+        </nav>
+
+    </header>
+
+
+    <main class="itinerary-container">
+
+        <!-- HERO SECTION -->
+        <section class="itinerary-hero">
+
+            <div class="itinerary-hero-content">
+
+                <span class="itinerary-eyebrow">
+                    YOUR PERSONAL TRAVEL PLAN
+                </span>
+
+                <h1>
+                    Your next adventure<br>
+                    <span>starts here.</span>
+                </h1>
+
+                <p>
+                    Your personalized travel itinerary is ready.
+                    Explore your plan, discover new places and make
+                    every moment of your journey memorable.
+                </p>
+
+                <div class="hero-features">
+                    <span>✦ AI-powered planning</span>
+                    <span>✦ Personalized experiences</span>
+                    <span>✦ Budget-conscious travel</span>
+                </div>
+
+            </div>
+
+            <div class="itinerary-hero-decoration">
+                <div class="hero-decoration-circle"></div>
+                <div class="hero-decoration-card">
+                    <span class="decoration-icon">✈</span>
+                    <div>
+                        <strong>Your journey</strong>
+                        <small>One trip. Many memories.</small>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- TRIP OVERVIEW -->
+        <section class="itinerary-section">
+
+            <div class="itinerary-section-heading">
+
+                <div>
+                    <span class="section-eyebrow">TRIP DETAILS</span>
+                    <h2>Your Trip Overview</h2>
+                    <p>Everything about your upcoming adventure in one place.</p>
+                </div>
+
+                <span class="overview-badge">
+                    ✓ Plan Created
+                </span>
+
+            </div>
+
+
+            <div class="itinerary-details-grid">
+
+                <!-- Destination -->
+                <article class="itinerary-detail-card destination-detail">
+
+                    <div class="detail-icon destination-icon">⌖</div>
+
+                    <div>
+                        <span class="itinerary-detail-label">
+                            Destination
+                        </span>
+
+                        <h3 th:text="${tripPlanRequest.destination}">
+                            Destination
+                        </h3>
+                    </div>
+
+                </article>
+
+
+                <!-- Start Date -->
+                <article class="itinerary-detail-card">
+
+                    <div class="detail-icon date-icon">▦</div>
+
+                    <div>
+                        <span class="itinerary-detail-label">
+                            Start Date
+                        </span>
+
+                        <h3 th:text="${tripPlanRequest.startDate}">
+                            Start date
+                        </h3>
+                    </div>
+
+                </article>
+
+
+                <!-- End Date -->
+                <article class="itinerary-detail-card">
+
+                    <div class="detail-icon end-date-icon">◷</div>
+
+                    <div>
+                        <span class="itinerary-detail-label">
+                            End Date
+                        </span>
+
+                        <h3 th:text="${tripPlanRequest.endDate}">
+                            End date
+                        </h3>
+                    </div>
+
+                </article>
+
+
+                <!-- Budget -->
+                <article class="itinerary-detail-card">
+
+                    <div class="detail-icon budget-icon">₹</div>
+
+                    <div>
+                        <span class="itinerary-detail-label">
+                            Total Budget
+                        </span>
+
+                        <h3 class="itinerary-budget-value">
+                            ₹<span th:text="${tripPlanRequest.budget}">0</span>
+                        </h3>
+                    </div>
+
+                </article>
+
+
+                <!-- Travelers -->
+                <article class="itinerary-detail-card">
+
+                    <div class="detail-icon travelers-icon">♧</div>
+
+                    <div>
+                        <span class="itinerary-detail-label">
+                            Travelers
+                        </span>
+
+                        <h3 th:text="${tripPlanRequest.travelers}">
+                            1
+                        </h3>
+                    </div>
+
+                </article>
+
+
+                <!-- Interests -->
+                <article class="itinerary-detail-card">
+
+                    <div class="detail-icon interests-icon">✧</div>
+
+                    <div>
+                        <span class="itinerary-detail-label">
+                            Your Interests
+                        </span>
+
+                        <h3 th:text="${tripPlanRequest.interests}">
+                            Exploration
+                        </h3>
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- AI ITINERARY -->
+        <section class="itinerary-section">
+
+            <div class="itinerary-section-heading">
+
+                <div>
+                    <span class="section-eyebrow">POWERED BY TRIPNOVA AI</span>
+
+                    <h2>Your Day-by-Day Itinerary</h2>
+
+                    <p>
+                        Discover what to explore, where to go and how to
+                        make the most of your trip.
+                    </p>
+                </div>
+
+                <div class="ai-status-badge">
+                    <span class="ai-status-dot"></span>
+                    AI Generated
+                </div>
+
+            </div>
+
+
+            <!-- Itinerary day cards -->
+            <div class="itinerary-days">
+
+                <article class="day-card"
+                         th:each="day, iter : ${itineraryDays}">
+
+                    <div class="day-card-header">
+
+                        <div class="day-number"
+                             th:text="${iter.count}">
+                            1
+                        </div>
+
+                        <div class="day-heading-text">
+
+                            <span class="day-label"
+                                  th:text="'DAY ' + ${iter.count}">
+                                DAY 1
+                            </span>
+
+                            <h3 th:text="${day.title}">
+                                Your Travel Plan
+                            </h3>
+
+                        </div>
+
+                        <span class="day-heading-icon">✦</span>
+
+                    </div>
+
+
+                    <!--
+                        day.htmlContent must contain HTML that has
+                        already been sanitized in the backend.
+                    -->
+                    <div class="day-card-content"
+                         th:utext="${day.htmlContent}">
+
+                        Your itinerary details will appear here.
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- Travel notice -->
+            <div class="itinerary-notice">
+
+                <div class="notice-icon">ⓘ</div>
+
+                <div>
+                    <strong>A little travel reminder</strong>
+
+                    <p>
+                        Prices, opening hours, ticket availability and
+                        travel times are estimates. Verify important
+                        details before your journey.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ACTIONS -->
+        <section class="itinerary-actions-section">
+
+            <div class="itinerary-actions-heading">
+                <span class="section-eyebrow">READY TO EXPLORE?</span>
+
+                <h2>Your next adventure awaits.</h2>
+
+                <p>
+                    Review your plan or create another unforgettable journey.
+                </p>
+            </div>
+
+
+            <div class="itinerary-actions">
+
+                <!-- Plan another trip -->
+                <a class="btn btn-primary itinerary-action-btn"
+                   th:href="@{/plan-trip}">
+
+                    <span>＋</span>
+                    Plan Another Trip
+
+                </a>
+
+
+                <!-- Regenerate existing itinerary -->
+                <form th:action="@{/plan-trip}"
+                      method="post"
+                      th:object="${tripPlanRequest}"
+                      class="regenerate-form">
+
+                    <!-- CSRF Security Token -->
+                    <input type="hidden"
+                           th:if="${_csrf != null}"
+                           th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}">
+
+                    <!-- Existing Trip ID -->
+                    <input type="hidden"
+                           name="tripId"
+                           th:value="${savedTripId}">
+
+                    <!-- Destination -->
+                    <input type="hidden"
+                           name="destination"
+                           th:value="${tripPlanRequest.destination}">
+
+                    <!-- Start Date -->
+                    <input type="hidden"
+                           name="startDate"
+                           th:value="${tripPlanRequest.startDate}">
+
+                    <!-- End Date -->
+                    <input type="hidden"
+                           name="endDate"
+                           th:value="${tripPlanRequest.endDate}">
+
+                    <!-- Budget -->
+                    <input type="hidden"
+                           name="budget"
+                           th:value="${tripPlanRequest.budget}">
+
+                    <!-- Travelers -->
+                    <input type="hidden"
+                           name="travelers"
+                           th:value="${tripPlanRequest.travelers}">
+
+                    <!-- Interests -->
+                    <input type="hidden"
+                           name="interests"
+                           th:value="${tripPlanRequest.interests}">
+
+                    <button type="submit"
+                            class="btn btn-secondary itinerary-action-btn regenerate-button">
+
+                        <span>↻</span>
+                        Generate Again
+
+                    </button>
+
+                </form>
+
+
+                <!-- Saved Trip -->
+                <a class="btn btn-secondary itinerary-action-btn"
+                   th:href="@{/trips/{id}(id=${savedTripId})}">
+
+                    View Saved Trip
+                    <span>→</span>
+
+                </a>
+
+
+                <!-- All Trips -->
+                <a class="btn btn-secondary itinerary-action-btn"
+                   th:href="@{/trips}">
+
+                    My Trips
+
+                </a>
+
+            </div>
+
+        </section>
+		
+		<!-- TripNova Interactive Map -->
+		<section class="trip-map-section">
+
+		    <div class="map-heading">
+		        <p class="map-eyebrow">EXPLORE YOUR DESTINATION</p>
+
+		        <h2>Explore Your Trip on Map</h2>
+
+		        <p>
+		            Discover your destination and explore the surrounding area.
+		        </p>
+		    </div>
+
+		    <div id="tripMap"
+		         class="trip-map"
+		         th:attr="data-destination=${tripPlanRequest.destination}">
+		    </div>
+
+		    <p id="mapStatus" class="map-status" aria-live="polite">
+		        Loading your destination...
+		    </p>
+
+		</section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="itinerary-footer">
+
+        <a class="logo" th:href="@{/}">
+            TripNova<span>.</span>
+        </a>
+
+        <p>
+            Plan smarter. Travel better. Make memories that last.
+        </p>
+
+        <small>
+            © 2026 TripNova. All rights reserved.
+        </small>
+
+    </footer>
+
+
+    <!-- Regenerate button loading state -->
+    <script>
+        document.querySelectorAll(".regenerate-form").forEach(form => {
+
+            form.addEventListener("submit", function () {
+
+                const button = form.querySelector("button");
+
+                if (button.disabled) {
+                    return;
+                }
+
+                button.disabled = true;
+                button.classList.add("is-loading");
+                button.innerHTML =
+                    '<span class="loading-spinner"></span> Generating itinerary...';
+
+            });
+
+        });
+    </script>
+
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+	<script th:src="@{/js/trip-map.js}"></script>
+</body>
+</html>

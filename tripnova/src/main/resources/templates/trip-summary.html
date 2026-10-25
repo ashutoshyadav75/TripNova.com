@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Your Trip | TripNova</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="your-trip-navbar">
+
+        <a class="your-trip-logo" th:href="@{/}">
+            <span class="your-trip-logo-icon">✦</span>
+            TripNova
+        </a>
+
+        <div class="your-trip-nav-links">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/trips/new}" class="your-trip-nav-button">
+                Plan Another Trip <span>→</span>
+            </a>
+        </div>
+
+    </nav>
+
+
+    <main class="your-trip-page">
+
+        <!-- Success Banner -->
+        <section class="your-trip-success-banner">
+
+            <div class="your-trip-success-icon">✓</div>
+
+            <div>
+                <span class="your-trip-eyebrow">TRIP SUBMITTED SUCCESSFULLY</span>
+                <h1>Your adventure starts here!</h1>
+                <p>Your trip details have been received successfully.</p>
+            </div>
+
+        </section>
+
+
+        <!-- Trip Summary Card -->
+        <section class="your-trip-card">
+
+            <div class="your-trip-card-header">
+
+                <div>
+                    <span class="your-trip-eyebrow">YOUR TRAVEL PLAN</span>
+
+                    <h2>
+                        Your trip to
+                        <span th:text="${trip.destination}">Jaipur</span>
+                    </h2>
+
+                    <p>
+                        Your travel details are organized and ready for your next step.
+                    </p>
+                </div>
+
+                <div class="your-trip-destination-icon">✈</div>
+
+            </div>
+
+
+            <!-- Trip Information -->
+            <div class="your-trip-details-grid">
+
+                <div class="your-trip-detail-item">
+
+                    <div class="your-trip-detail-icon your-trip-blue">⌖</div>
+
+                    <div class="your-trip-detail-text">
+                        <span>Destination</span>
+
+                        <strong th:text="${trip.destination}">
+                            Jaipur
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="your-trip-detail-item">
+
+                    <div class="your-trip-detail-icon your-trip-purple">▦</div>
+
+                    <div class="your-trip-detail-text">
+                        <span>Start Date</span>
+
+                        <strong th:text="${trip.startDate}">
+                            2026-11-01
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="your-trip-detail-item">
+
+                    <div class="your-trip-detail-icon your-trip-orange">▣</div>
+
+                    <div class="your-trip-detail-text">
+                        <span>End Date</span>
+
+                        <strong th:text="${trip.endDate}">
+                            2026-11-03
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="your-trip-detail-item">
+
+                    <div class="your-trip-detail-icon your-trip-green">₹</div>
+
+                    <div class="your-trip-detail-text">
+                        <span>Total Budget</span>
+
+                        <strong>
+                            ₹<span th:text="${trip.budget}">8000</span>
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="your-trip-detail-item">
+
+                    <div class="your-trip-detail-icon your-trip-pink">♧</div>
+
+                    <div class="your-trip-detail-text">
+                        <span>Travelers</span>
+
+                        <strong th:text="${trip.travelers}">
+                            2
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="your-trip-detail-item">
+
+                    <div class="your-trip-detail-icon your-trip-indigo">✧</div>
+
+                    <div class="your-trip-detail-text">
+                        <span>Interests</span>
+
+                        <strong th:text="${trip.interests}">
+                            History
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Current Project Status -->
+            <div class="your-trip-status">
+
+                <div class="your-trip-status-icon">✦</div>
+
+                <div>
+                    <h3>Your trip details are saved</h3>
+
+                    <p>
+                        AI itinerary generation will be available through
+                        the itinerary planning workflow.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- Actions -->
+            <div class="your-trip-actions">
+
+                <a class="your-trip-primary-button"
+                   th:href="@{/trips/new}">
+                    <span>＋</span>
+                    Plan Another Trip
+                    <span class="your-trip-arrow">→</span>
+                </a>
+
+                <a class="your-trip-secondary-button"
+                   th:href="@{/}">
+                    Back to Home
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- Footer -->
+        <footer class="your-trip-footer">
+            <span>✦</span>
+            <p>Explore more. Worry less. Travel with TripNova.</p>
+        </footer>
+
+    </main>
+
+</body>
+</html>
